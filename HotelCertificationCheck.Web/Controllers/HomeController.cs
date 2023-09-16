@@ -14,17 +14,54 @@ namespace HotelCertificationCheck.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<HotelUser> _userManager;
         private readonly SignInManager<HotelUser> _signInManager;
-        public HomeController(ILogger<HomeController> logger, UserManager<HotelUser> userManager,  SignInManager<HotelUser> signInManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public HomeController(ILogger<HomeController> logger, UserManager<HotelUser> userManager, RoleManager<IdentityRole> roleManager,  SignInManager<HotelUser> signInManager)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._logger = logger;
+            this._roleManager = roleManager;
         }
 
         [AllowAnonymous]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            await AddDefaultUsers();
             return View();
+        }
+
+        private async Task AddDefaultUsers()
+        {
+            var _users = new List<HotelUser>
+            {
+                new HotelUser
+                {
+                    UserName = "admin",
+                    Email = "admin@gmail.com",
+                    Password = "admin",
+                    Role = ERoles.Admin.ToString()
+                },
+                new HotelUser
+                {
+                    UserName = "user",
+                    Email = "user@gmail.com",
+                    Password = "user",
+                    Role = ERoles.User.ToString()
+                }
+            };
+            foreach (var user in _users)
+            {
+                if (await _userManager.FindByNameAsync(user.UserName) is not null)
+                    continue;
+
+                var _identityResult = await _userManager.CreateAsync(user, user.Password);
+                if (_identityResult.Succeeded)
+                {
+                    if (!await _roleManager.RoleExistsAsync(user.Role))
+                        await _roleManager.CreateAsync(new IdentityRole(user.Role));
+                    await _userManager.AddToRoleAsync(user, user.Role);
+                }
+            }
         }
 
         [HttpPost]
