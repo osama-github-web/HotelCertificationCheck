@@ -1,0 +1,194 @@
+﻿@model IEnumerable<HotelCertificationCheck.Entities.Hotel>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addHotelModal">
+    Add
+</button>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th >BecauseId</th>
+            <th >Name</th>
+            <th >Country</th>
+            <th >State</th>
+            <th >City</th>
+            <th >Address</th>
+            
+            <th >Postalcode</th>
+            <th >LatitudeInDecimals</th>
+            <th >LongitudeInDecimals</th>
+            <th >IsCertified</th>
+
+            <th >CertificationDate</th>
+            <th >ExpirationDate</th>
+            <th >Website</th>
+            <th >Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var hotel in Model)
+            {
+                <tr>
+                    <td>@hotel.BecauseId</td>
+                    <td>@hotel.Name</td>
+                    <td>@hotel.Country</td>
+                    <td>@hotel.State</td>
+                    <td>@hotel.City</td>
+                    <td>@hotel.Address</td>
+
+                    <td>@hotel.Postalcode</td>
+                    <td>@hotel.LatitudeInDecimals</td>
+                    <td>@hotel.LongitudeInDecimals</td>
+                    <td>@hotel.IsCertified</td>
+
+                    <td>@hotel.CertificationDate</td>
+                    <td>@hotel.ExpirationDate</td>
+                    <td>@hotel.Website</td>
+                    <th><button class="btn btn-outline-danger" onclick="deleteHotel('@hotel.Id')">Delete</button></th>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<!-- Start: Modal -->
+<div class="modal fade" id="addHotelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Hotel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-control mb-3">
+                    <label for="becauseIdInputId" class="form-label">BecauseId</label>
+                    <input type="text" name="BecauseId" class="form-control" id="BecauseIdInputId" placeholder="Enter BecauseId">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="userNameInputId" class="form-label">Name</label>
+                    <input type="text" name="Name" class="form-control" id="userNameInputId" placeholder="Enter Hotel Name">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="countryInputId" class="form-label">Country</label>
+                    <input type="text" name="Country" class="form-control" id="countryInputId" placeholder="Enter Country">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="stateInputId" class="form-label">State</label>
+                    <input type="text" name="State" class="form-control" id="stateInputId" placeholder="Enter State">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="cityInputId" class="form-label">City</label>
+                    <input type="text" name="City" class="form-control" id="cityInputId" placeholder="Enter City">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="AddressInputId" class="form-label">Address</label>
+                    <input type="text" name="Address" class="form-control" id="AddressInputId" placeholder="Enter Address">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="PostalcodeInputId" class="form-label">Postalcode</label>
+                    <input type="text" name="Postalcode" class="form-control" id="PostalcodeInputId" placeholder="Enter Postalcode">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="LatitudeInDecimalsInputId" class="form-label">LatitudeInDecimals</label>
+                    <input type="number" name="LatitudeInDecimals" class="form-control" id="LatitudeInDecimalsInputId" placeholder="Enter LatitudeInDecimals">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="LongitudeInDecimalsInputId" class="form-label">LongitudeInDecimals</label>
+                    <input type="number" name="LongitudeInDecimals" class="form-control" id="LongitudeInDecimalsInputId" placeholder="Enter LongitudeInDecimals">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="IsCertifiedInputId" class="form-label">Certified</label>
+                    <select name="IsCertified" class="form-select">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="form-control mb-3">
+                    <label for="CertificationDateInputId" class="form-label">CertificationDate</label>
+                    <input type="date" name="CertificationDate" class="form-control" id="CertificationDateInputId" placeholder="Enter CertificationDate">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="ExpirationDateInputId" class="form-label">ExpirationDate</label>
+                    <input type="date" name="ExpirationDate" class="form-control" id="ExpirationDateInputId" placeholder="Enter CertificationDate">
+                </div>
+                <div class="form-control mb-3">
+                    <label for="WebsiteInputId" class="form-label">Website</label>
+                    <input type="url" name="Website" class="form-control" id="WebsiteInputId" placeholder="Enter ">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addHotel()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: Modal -->
+
+
+<script>
+    function addHotel() {
+        var _becauseId = $('[name="BecauseId"]').val();
+        var _name = $('[name="Name"]').val();
+        var _country = $('[name="Country"]').val();
+        var _state = $('[name="State"]').val();
+        var _city = $('[name="City"]').val();
+        var _address = $('[name="Address"]').val();
+        var _postalcode = $('[name="Postalcode"]').val();
+        var _latitudeInDecimals = $('[name="LatitudeInDecimals"]').val();
+        var _longitudeInDecimals = $('[name="LongitudeInDecimals"]').val();
+        var _isCertified = $('[name="IsCertified"]').val();
+        var _certificationDate = $('[name="CertificationDate"]').val();
+        var _expirationDate = $('[name="ExpirationDate"]').val();
+        var _website = $('[name="Website"]').val();
+        
+        $.ajax({
+            url: '@Url.Action("Add","Hotel")',
+            method: 'POST',
+            data: {
+                BecauseId: _becauseId,
+                Name: _name,
+                Country: _country,
+                State: _state,
+                City: _city,
+                Address: _address,
+                Postalcode: _postalcode,
+                LatitudeInDecimals: _latitudeInDecimals,
+                LongitudeInDecimals: _longitudeInDecimals,
+                IsCertified: _isCertified,
+                CertificationDate: _certificationDate,
+                ExpirationDate: _expirationDate,
+                Website: _website
+            },
+            async: true,
+            success: function (response) {
+                alert(response);
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.log('Request failed');
+                console.log(error);
+            }
+        });
+    }
+
+    function deleteHotel(hotelId) {
+        $.ajax({
+            url: '@Url.Action("Delete","Hotel")',
+            method: 'POST',
+            data: {
+                Id: hotelId,
+            },
+            success: function (response) {
+                alert(response);
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.log('Request failed');
+                console.log(error);
+            }
+        });
+    }
+</script>

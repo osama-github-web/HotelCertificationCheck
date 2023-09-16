@@ -1,0 +1,100 @@
+﻿@model IEnumerable<HotelCertificationCheck.Entities.Hotel>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkHotelCertificationModal">
+    Check Certification 
+</button>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>BecauseId</th>
+            <th>Name</th>
+            <th>Country</th>
+            <th>State</th>
+            <th>City</th>
+            <th>Address</th>
+            <th>Postalcode</th>
+            <th>Website</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var hotel in Model)
+            {
+                <tr>
+                    <td>@hotel.BecauseId</td>
+                    <td>@hotel.Name</td>
+                    <td>@hotel.Country</td>
+                    <td>@hotel.State</td>
+                    <td>@hotel.City</td>
+                    <td>@hotel.Address</td>
+                    <td>@hotel.Postalcode</td>
+                    <td>@hotel.Website</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<!-- Start: Modal -->
+<div class="modal fade" id="checkHotelCertificationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Verify Hotel Certification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-control mb-3">
+                    <label for="hotelInputId" class="form-label">BecauseId</label>
+                    <input type="number" name="hotelBecauseId" class="form-control" id="hotelInputId" placeholder="Enter Hotel Because Id">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="verifyHotelCertification()">Verify</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: Modal -->
+
+
+<script>
+    function verifyHotelCertification() {
+        var _hotelBecauseId = $('[name="hotelBecauseId"]').val();
+
+        $.ajax({
+            url: '@Url.Action("VerifyHotelCertification","Client")/' + _hotelBecauseId,
+            method: 'GET',
+            async: true,
+            success: function (response) {
+                alert(response);
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.log('Request failed');
+                console.log(error);
+            }
+        });
+    }
+
+    function deleteHotel(hotelId) {
+        $.ajax({
+            url: '@Url.Action("Delete","Hotel")',
+            method: 'POST',
+            data: {
+                Id: hotelId,
+            },
+            success: function (response) {
+                alert(response);
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.log('Request failed');
+                console.log(error);
+            }
+        });
+    }
+</script>

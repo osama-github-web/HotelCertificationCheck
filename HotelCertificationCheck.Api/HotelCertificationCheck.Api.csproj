@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HotelCertificationCheck.Context\HotelCertificationCheck.Context.csproj" />
+    <ProjectReference Include="..\HotelCertificationCheck.Entities\HotelCertificationCheck.Entities.csproj" />
+    <ProjectReference Include="..\HotelCertificationCheck.Enums\HotelCertificationCheck.Enums.csproj" />
+    <ProjectReference Include="..\HotelCertificationCheck.Repository\HotelCertificationCheck.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

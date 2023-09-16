@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HotelCertificationCheck.Context\HotelCertificationCheck.Context.csproj" />
+    <ProjectReference Include="..\HotelCertificationCheck.Entities\HotelCertificationCheck.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
